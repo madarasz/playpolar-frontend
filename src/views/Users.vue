@@ -90,6 +90,13 @@
             fb: true,
             lastActive: '2018.05.03. 13:13'
           },
+          {
+            name: 'Kis Béla',
+            points: 11500,
+            scans: 5,
+            fb: true,
+            lastActive: '2018.05.08. 13:03'
+          },
         ]
       }
     }
