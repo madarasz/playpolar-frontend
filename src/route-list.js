@@ -1,8 +1,8 @@
 module.exports = [
     {
-        path: '/',
-        name: 'home',
-        component: () => import('./views/Home.vue')
+        path: '/users',
+        name: 'Felhasználók',
+        component: () => import('./views/Users.vue')
     },
     {
         path: '/about',
@@ -12,7 +12,7 @@ module.exports = [
     {
         path: '*',
         redirect: {
-            name: 'home'
+            name: 'Felhasználók'
         }
     }
 ]

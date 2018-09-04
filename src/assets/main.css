@@ -9,3 +9,11 @@
     /*background-color: #fff;*/
     /*background-image: linear-gradient(to bottom,#999,#bbb 100%);*/
 /*}*/
+ 
+table.v-table tbody td {
+    font-size: 17px;
+}
+
+table.v-table thead th {
+    font-size: 16px;
+}
