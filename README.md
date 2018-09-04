@@ -1,6 +1,7 @@
 # play-polar-demo
 
 ## Project setup
+*upgrade node.js to v10+*
 ```
 npm install -g @vue/cli
 npm install
