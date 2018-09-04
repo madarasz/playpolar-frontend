@@ -5,7 +5,7 @@
         <!--<v-toolbar-side-icon></v-toolbar-side-icon>-->
         <v-toolbar-title>Play!Polar</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-toolbar-items class="hidden-sm-and-down">
+        <v-toolbar-items class="">
           <v-btn flat v-for="route in routerItems" :key="route.path">
             <router-link :to="route" class="nav-link" active-class="active" tag="span">
               {{ route.name }}

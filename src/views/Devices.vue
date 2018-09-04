@@ -43,6 +43,7 @@
             <v-data-table :headers="headerTypes" :items="types" :search="searchTypes" hide-actions no-data-text="nincsenek készülék típusok">
                 <template slot="items" slot-scope="props">
                     <td class="text-xs-left">{{ props.item.type }}</td>
+                    <td class="text-xs-right">{{ props.item.amount }}</td>
                     <td class="text-xs-right">
                         <v-btn color="info">szerkesztés</v-btn>
                     </td>
@@ -118,11 +119,12 @@
         ],
         headerTypes: [
           { text: 'Típus', align: 'left', value: 'name' },
+          { text: 'Készülék db', align: 'right', value: 'amount' },
           { text: ''}
         ],
         types: [
-          { type: 'split' },
-          { type: 'multi split' },
+          { type: 'split', amount: 6 },
+          { type: 'multi split', amount: 1 },
         ],  
       }  
     }

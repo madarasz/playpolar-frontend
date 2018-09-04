@@ -1,20 +1,23 @@
 <template>
    <v-card>
     <v-card-title>
-        <span class="headline">
-            Kihívások
-        </span>
-        <v-spacer></v-spacer>
-        <v-text-field v-model="search" append-icon="search" label="keresés" single-line hide-details class="pt-0"></v-text-field>
+      <v-btn fab dark small color="indigo">
+        <v-icon dark>add</v-icon>
+      </v-btn>
+      <span class="headline">
+          Kihívások
+      </span>
+      <v-spacer></v-spacer>
+      <v-text-field v-model="search" append-icon="search" label="keresés" single-line hide-details class="pt-0"></v-text-field>
     </v-card-title>
     <v-data-table :headers="headers" :items="challenges" :search="search" hide-actions no-data-text="nincsenek kihívások">
         <template slot="items" slot-scope="props">
             <td class="text-xs-left">{{ props.item.title }}</td>
             <td class="text-xs-left">{{ props.item.description }}</td>
             <td class="text-xs-right">{{ props.item.awardedWatts }}</td>
-            <td class="text-xs-right">{{ props.item.usersCompleted }}</td>
-            <td class="text-xs-right">{{ props.item.usersActive }}</td>
-            <td class="text-xs-right">{{ props.item.usersFailed }}</td>
+            <td class="text-xs-right">{{ props.item.usersCompleted }} fő</td>
+            <td class="text-xs-right">{{ props.item.usersActive }} fő</td>
+            <td class="text-xs-right">{{ props.item.usersFailed }} fő</td>
             <td class="text-xs-right">{{ props.item.requiredWatts }}</td>
             <td class="text-xs-right">{{ props.item.requiredScans }}</td>
             <td class="text-xs-center">{{ props.item.requiredType }}</td>
@@ -91,14 +94,14 @@
             usersActive: 3,
             usersFailed: 4,
             requiredWatts: null,
-            requiredScans: 1,
+            requiredScans: 2,
             requiredType: null,
             minimumWatts: null,
             maximumWatts: 5000,
             active: true
           },
           {
-            title: 'Sok kicsi',
+            title: 'Sok kicsi sokra megy',
             description: 'Csippants összesen 20000 W-nyi készüléket!',
             awardedWatts: 100000,
             usersCompleted: 3,
