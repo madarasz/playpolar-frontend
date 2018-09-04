@@ -1,23 +1,25 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-coolklima">
-      <div class="container">
-        <span class="navbar-brand" href="#">Play!Polar</span>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item" v-for="route in routerItems" :key="route.path">
-              <router-link :to="route" class="nav-link" active-class="active">
-                {{ route.title }}
-              </router-link>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <router-view/>
+    <v-app>
+      <v-toolbar dark>
+        <!--<v-toolbar-side-icon></v-toolbar-side-icon>-->
+        <v-toolbar-title>Play!Polar</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-toolbar-items class="hidden-sm-and-down">
+          <v-btn flat v-for="route in routerItems" :key="route.path">
+            <router-link :to="route" class="nav-link" active-class="active" tag="span">
+              {{ route.name }}
+            </router-link>
+          </v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+      <v-content>
+        <v-container fluid>
+          <router-view></router-view>
+        </v-container>
+      </v-content>
+      <v-footer app></v-footer>
+    </v-app>
   </div>
 </template>
 
