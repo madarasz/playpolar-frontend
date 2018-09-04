@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app-main">
     <v-app>
       <v-toolbar dark>
         <!--<v-toolbar-side-icon></v-toolbar-side-icon>-->
