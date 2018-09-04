@@ -1,12 +1,35 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-coolklima">
+      <div class="container">
+        <span class="navbar-brand" href="#">Play!Polar</span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item" v-for="route in routerItems" :key="route.path">
+              <router-link :to="route" class="nav-link" active-class="active">
+                {{ route.title }}
+              </router-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
     <router-view/>
   </div>
 </template>
+
+<script>
+  import RouteList from './route-list.js'
+
+  export default {
+    data:() => ({
+      routerItems: RouteList.slice(0, -1)
+    })
+  }
+</script>
 
 <style>
 #app {

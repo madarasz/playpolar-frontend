@@ -1,0 +1,11 @@
+.bg-coolklima {
+    background-color: #3c3a3d;
+    color: #333;
+}
+
+a.nav-link.active {
+    margin: -0.5rem 0rem -0.5rem 0rem;
+    padding: 1rem;
+    background-color: #fff;
+    background-image: linear-gradient(to bottom,#999,#bbb 100%);
+}
