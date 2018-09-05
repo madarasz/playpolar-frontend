@@ -11,17 +11,17 @@
 /*}*/
  
 table.v-table tbody td {
-    font-size: 17px;
+    font-size: 15px;
 }
 
 table.v-table thead th {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .v-toolbar__title {
-    font-size: 24px;
+    font-size: 22px;
 }
 
 .nav-link {
-    font-size: 18px;
+    font-size: 16px;
 }
