@@ -1,13 +1,15 @@
 <template>
-   <v-card>
-    <v-card-title>
-        <span class="headline">
-            Felhasználók
-        </span>
-        <v-spacer></v-spacer>
-        <v-text-field v-model="search" append-icon="search" label="keresés" single-line hide-details class="pt-0"></v-text-field>
-    </v-card-title>
-    <v-data-table :headers="headers" :items="users" :search="search" hide-actions no-data-text="nincsenek felhasználók">
+  <div>
+    <!-- Felhasználók tábla -->
+    <v-card>
+      <v-card-title>
+          <span class="headline">
+              Felhasználók
+          </span>
+          <v-spacer></v-spacer>
+          <v-text-field v-model="searchUsers" append-icon="search" label="keresés" single-line hide-details class="pt-0"></v-text-field>
+      </v-card-title>
+      <v-data-table :headers="headerUsers" :items="users" :search="searchUsers" hide-actions no-data-text="nincsenek felhasználók">
         <template slot="items" slot-scope="props">
             <td class="text-xs-left">{{ props.item.name }}</td>
             <td class="text-xs-right">{{ props.item.points }}</td>
@@ -17,28 +19,54 @@
             </td>
             <td class="text-xs-left">{{ props.item.lastActive }}</td>
             <td class="text-xs-right">
-              <v-btn color="info">részletek</v-btn>
+              <v-btn color="success">részletek</v-btn>
             </td>
         </template>
         <v-alert slot="no-results" :value="true" color="error" icon="warning">
-            Nincs találat "{{ search }}" kifejezésre.
+            Nincs találat "{{ searchUsers }}" kifejezésre.
         </v-alert>
-    </v-data-table>
-  </v-card>
+      </v-data-table>
+    </v-card>
+
+    <!-- Meghívottak tábla -->
+    <v-card class="mt-4">
+      <v-card-title>
+          <span class="headline">
+              Meghívott, még nem regisztráltak
+          </span>
+          <v-spacer></v-spacer>
+          <v-text-field v-model="searchInvites" append-icon="search" label="keresés" single-line hide-details class="pt-0"></v-text-field>
+      </v-card-title>
+      <v-data-table :headers="headerInvites" :items="invites" :search="searchInvites" hide-actions no-data-text="nincsenek meghívottak">
+        <template slot="items" slot-scope="props">
+            <td class="text-xs-left">{{ props.item.name }}</td>
+            <td class="text-xs-left">{{ props.item.invitedBy }}</td>
+        </template>
+        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+            Nincs találat "{{ searchInvites }}" kifejezésre.
+        </v-alert>
+      </v-data-table>
+    </v-card>
+  </div>
 </template>
 
 <script>
   export default {
     data () {
       return {
-        search: '',
-        headers: [
+        searchUsers: '',
+        searchInvites: '',
+        headerUsers: [
           { text: 'Név', align: 'left', value: 'name' },
           { text: 'Watt pontok', align: 'right', value: 'points' },
           { text: 'Scan db', align: 'right', value: 'scans' },
           { text: 'Facebook', align: 'center', value: 'fb' },
           { text: 'Utolsó aktivitás', align: 'left', value: 'lastActive' },
           { text: ''}
+        ],
+        headerInvites: [
+          { text: 'Név', align: 'left', value: 'name' },
+          { text: 'Meghívta', align: 'left', value: 'invitedBy' },
         ],
         users: [
           {
@@ -96,6 +124,16 @@
             scans: 5,
             fb: true,
             lastActive: '2018.05.08. 13:03'
+          },
+        ],
+        invites: [
+          {
+            name: 'Lugosi Béla',
+            invitedBy: 'Kis Béla'
+          },
+          {
+            name: 'Nagy Csongor',
+            invitedBy: 'Barna Frigyes'
           },
         ]
       }
