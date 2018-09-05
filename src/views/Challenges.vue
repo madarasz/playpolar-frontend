@@ -20,6 +20,7 @@
             <td class="text-xs-right">{{ props.item.usersFailed }} fő</td>
             <td class="text-xs-right">{{ props.item.requiredWatts }}</td>
             <td class="text-xs-right">{{ props.item.requiredScans }}</td>
+            <td class="text-xs-right">{{ props.item.requiredInvites }}</td>
             <td class="text-xs-center">{{ props.item.requiredType }}</td>
             <td class="text-xs-right">{{ props.item.minimumWatts }}</td>
             <td class="text-xs-right">{{ props.item.maximumWatts }}</td>
@@ -49,8 +50,9 @@
           { text: 'Teljesítve', align: 'right', value: 'usersCompleted' },
           { text: 'Aktív', align: 'right', value: 'usersActive' },
           { text: 'Sikertelen', align: 'right', value: 'usersFailed' },
-          { text: 'Összes Watt', align: 'right', value: 'requiredWatts' },
-          { text: 'Összes Scan', align: 'right', value: 'requiredScans' },
+          { text: 'Kell Watt', align: 'right', value: 'requiredWatts' },
+          { text: 'Kell Scan', align: 'right', value: 'requiredScans' },
+          { text: 'Kell Meghívás', align: 'right', value: 'requiredInvites' },
           { text: 'Típus', align: 'center', value: 'requiredType' },
           { text: 'Min Watt', align: 'right', value: 'minimumWatts' },
           { text: 'Max Watt', align: 'right', value: 'maximumWatts' },
@@ -68,6 +70,7 @@
             requiredWatts: null,
             requiredScans: 1,
             requiredType: null,
+            requiredInvites: null,
             minimumWatts: null,
             maximumWatts: null,
             active: true
@@ -81,6 +84,7 @@
             usersFailed: 4,
             requiredWatts: null,
             requiredScans: 3,
+            requiredInvites: null,
             requiredType: 'multi split',
             minimumWatts: null,
             maximumWatts: null,
@@ -95,6 +99,7 @@
             usersFailed: 4,
             requiredWatts: null,
             requiredScans: 2,
+            requiredInvites: null,
             requiredType: null,
             minimumWatts: null,
             maximumWatts: 5000,
@@ -109,6 +114,22 @@
             usersFailed: 2,
             requiredWatts: 20000,
             requiredScans: null,
+            requiredInvites: null,
+            requiredType: null,
+            minimumWatts: null,
+            maximumWatts: null,
+            active: true
+          },
+          {
+            title: 'Jó társaság',
+            description: 'Hívj meg két ismerősödet!',
+            awardedWatts: 40000,
+            usersCompleted: 2,
+            usersActive: 5,
+            usersFailed: 3,
+            requiredWatts: null,
+            requiredScans: null,
+            requiredInvites: 2,
             requiredType: null,
             minimumWatts: null,
             maximumWatts: null,
