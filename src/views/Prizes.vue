@@ -15,7 +15,9 @@
             <td class="text-xs-left">{{ props.item.name }}</td>
             <td class="text-xs-left">{{ props.item.description }}</td>
             <td class="text-xs-right">{{ props.item.price }}</td>
-            <td class="text-xs-right">{{ props.item.available }}</td>
+            <td class="text-xs-right" :class="props.item.available == 0 ? 'red--text font-weight-bold' : ''">
+                {{ props.item.available }}
+            </td>
             <td class="text-xs-center">
               <v-icon v-if="props.item.imageAvailable">image</v-icon>
             </td>
