@@ -15,15 +15,19 @@
             <td class="text-xs-left">{{ props.item.title }}</td>
             <td class="text-xs-left">{{ props.item.description }}</td>
             <td class="text-xs-right">{{ props.item.awardedWatts }}</td>
-            <td class="text-xs-right">{{ props.item.usersCompleted }} fő</td>
-            <td class="text-xs-right">{{ props.item.usersActive }} fő</td>
-            <td class="text-xs-right">{{ props.item.usersFailed }} fő</td>
-            <td class="text-xs-right">{{ props.item.requiredWatts }}</td>
-            <td class="text-xs-right">{{ props.item.requiredScans }}</td>
-            <td class="text-xs-right">{{ props.item.requiredInvites }}</td>
-            <td class="text-xs-center">{{ props.item.requiredType }}</td>
-            <td class="text-xs-right">{{ props.item.minimumWatts }}</td>
-            <td class="text-xs-right">{{ props.item.maximumWatts }}</td>
+            <td class="text-xs-center">
+              {{ props.item.usersCompleted }} / {{ props.item.usersActive }} / {{ props.item.usersFailed }} fő
+            </td>
+            <td class="text-xs-center">
+              <span v-if="props.item.requiredWatts">{{ props.item.requiredWatts }}W összesen</span>
+              <span v-if="props.item.requiredScans">{{ props.item.requiredScans }} scan</span>
+              <span v-if="props.item.requiredInvites">{{ props.item.requiredInvites }} meghívás</span>
+            </td>
+            <td class="text-xs-left">
+              <span v-if="props.item.requiredType">típus: {{ props.item.requiredType }}</span>
+              <span v-if="props.item.minimumWatts">min: {{ props.item.minimumWatts }}W</span>
+              <span v-if="props.item.maximumWatts">max: {{ props.item.maximumWatts }}W</span>
+            </td>
             <td class="text-xs-center">
               <v-icon v-if="props.item.active">check</v-icon>
             </td>
@@ -47,15 +51,9 @@
           { text: 'Cím', align: 'left', value: 'title' },
           { text: 'Szöveg', align: 'left', value: 'description' },
           { text: 'Watt érték', align: 'right', value: 'awardedWatts' },
-          { text: 'Teljesítve', align: 'right', value: 'usersCompleted' },
-          { text: 'Aktív', align: 'right', value: 'usersActive' },
-          { text: 'Sikertelen', align: 'right', value: 'usersFailed' },
-          { text: 'Kell Watt', align: 'right', value: 'requiredWatts' },
-          { text: 'Kell Scan', align: 'right', value: 'requiredScans' },
-          { text: 'Kell Meghívás', align: 'right', value: 'requiredInvites' },
-          { text: 'Típus', align: 'center', value: 'requiredType' },
-          { text: 'Min Watt', align: 'right', value: 'minimumWatts' },
-          { text: 'Max Watt', align: 'right', value: 'maximumWatts' },
+          { text: 'Teljesítve / Aktív / Sikertelen', align: 'center', sortable: false },
+          { text: 'Feltétel', align: 'right', sortable: false },
+          { text: 'Korlátozás', align: 'center', sortable: false },
           { text: 'Aktív', align: 'center', value: 'active' },
           { text: ''}
         ],
@@ -101,8 +99,8 @@
             requiredScans: 2,
             requiredInvites: null,
             requiredType: null,
-            minimumWatts: null,
-            maximumWatts: 5000,
+            minimumWatts: 5000,
+            maximumWatts: null,
             active: true
           },
           {
