@@ -25,3 +25,6 @@ table.v-table thead th {
 .nav-link {
     font-size: 16px;
 }
+div.smaller div table.v-table tbody td,  div.smaller div table.v-table tbody th {
+    font-size: 80%;
+}
