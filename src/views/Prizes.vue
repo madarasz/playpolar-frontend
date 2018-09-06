@@ -50,21 +50,21 @@
             name: 'Mérőszalag',
             description: 'Mérjen Ön is meg mindent!',
             price: 'mérföldkő',
-            available: 8,
+            available: null,
             imageAvailable: true
           },
           {
             name: 'Csővágó',
             description: 'A csövet bizony el kell vágni.',
             price: 'mérföldkő',
-            available: 25,
+            available: null,
             imageAvailable: true
           },
           {
             name: 'Céges autó',
             description: 'Csak a legjobbaknak jár.',
             price: 'mérföldkő',
-            available: 0,
+            available: null,
             imageAvailable: false
           },
           {
