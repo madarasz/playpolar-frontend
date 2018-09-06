@@ -1,9 +1,6 @@
 <template>
    <v-card>
     <v-card-title>
-      <v-btn fab dark small color="indigo">
-        <v-icon dark>add</v-icon>
-      </v-btn>
       <span class="headline">
           Ajándék követés
       </span>
