@@ -56,25 +56,47 @@
           <v-divider></v-divider>
           <!-- Listas adatok -->
           <v-card-text class="text-xs-left">
-            <v-list dense>
-              <v-list-title-content>Watt pontok:</v-list-title-content>
-              <v-list-title-content>{{ userDetails.data.points }}</v-list-title-content>
-            </v-list>
-            <v-list dense>
-              <v-list-title-content>Scannelések:</v-list-title-content>
-              <v-list-title-content>{{ userDetails.data.scans }}</v-list-title-content>
-            </v-list>
-            <v-list dense>
-              <v-list-title-content>Email cím:</v-list-title-content>
-              <v-list-title-content>{{ userDetails.fakedata.email }}</v-list-title-content>
-            </v-list>
-            <v-list dense>
-              <v-list-title-content>Regisztráció:</v-list-title-content>
-              <v-list-title-content>{{ userDetails.fakedata.registeredOn }}</v-list-title-content>
-            </v-list>
-            <v-list dense>
-              <v-list-title-content>Utolsó aktivitás:</v-list-title-content>
-              <v-list-title-content>{{ userDetails.data.lastActive }}</v-list-title-content>
+            <v-list dense style="width: 400px;">
+              <v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>Watt pontok:</v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-content>
+                  <v-list-tile-sub-title class="text-xs-right">{{ userDetails.data.points }}</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>Scannelések:</v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-content>
+                  <v-list-tile-sub-title class="text-xs-right">{{ userDetails.data.scans }}</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>Email cím:</v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-content>
+                  <v-list-tile-sub-title class="text-xs-right">{{ userDetails.fakedata.email }}</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>Regisztráció:</v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-content>
+                  <v-list-tile-sub-title class="text-xs-right">{{ userDetails.fakedata.registeredOn }}</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>Utolsó aktivitás:</v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-content>
+                  <v-list-tile-sub-title class="text-xs-right">{{ userDetails.data.lastActive }}</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
             </v-list>
           </v-card-text>
           <v-divider></v-divider>
