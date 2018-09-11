@@ -7,11 +7,13 @@
       <span class="headline">
           Kihívások
       </span>
+      <v-btn color="info" v-if="orderChanged">Sorrend mentése</v-btn>
       <v-spacer></v-spacer>
       <v-text-field v-model="search" append-icon="search" label="keresés" single-line hide-details class="pt-0"></v-text-field>
     </v-card-title>
     <v-data-table :headers="headers" :items="challenges" :search="search" hide-actions no-data-text="nincsenek kihívások">
         <template slot="items" slot-scope="props">
+            <td class="handle" style="max-width: 28px;">::</td>
             <td class="text-xs-left">{{ props.item.title }}</td>
             <td class="text-xs-left">{{ props.item.description }}</td>
             <td class="text-xs-right">{{ props.item.awardedWatts }}</td>
@@ -43,19 +45,36 @@
 </template>
 
 <script>
+  import Sortable from "sortablejs";
+
   export default {
+    mounted() {
+      let table = document.querySelector(".v-datatable tbody");
+      const _self = this;
+      Sortable.create(table, {
+        handle: ".handle", // Use handle so user can select text
+        onEnd({ newIndex, oldIndex }) {
+          /* eslint-disable no-console */
+          console.log(newIndex, oldIndex);
+          // insert switching logic here
+          _self.orderChanged = true;
+        }
+      });
+    },
     data () {
       return {
         search: '',
+        orderChanged: false,
         headers: [
-          { text: 'Cím', align: 'left', value: 'title' },
-          { text: 'Szöveg', align: 'left', value: 'description' },
-          { text: 'Watt érték', align: 'right', value: 'awardedWatts' },
+          { text: '', align: 'left', sortable: false },
+          { text: 'Cím', align: 'left', value: 'title', sortable: false },
+          { text: 'Szöveg', align: 'left', value: 'description', sortable: false },
+          { text: 'Watt érték', align: 'right', value: 'awardedWatts', sortable: false },
           { text: 'Teljesítve / Aktív / Sikertelen', align: 'center', sortable: false },
           { text: 'Feltétel', align: 'right', sortable: false },
           { text: 'Korlátozás', align: 'center', sortable: false },
-          { text: 'Aktív', align: 'center', value: 'active' },
-          { text: ''}
+          { text: 'Aktív', align: 'center', value: 'active', sortable: false },
+          { text: '', sortable: false}
         ],
         challenges: [
           {
