@@ -32,7 +32,7 @@ export default [
     {
         path: '*',
         redirect: {
-            name: 'Készülékek'
+            name: 'Felhasználók'
         }
     }
 ]
