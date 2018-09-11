@@ -39,7 +39,7 @@
         <v-card class="mt-4">
             <v-card-title>
                 <v-btn fab dark small color="indigo">
-                  <v-icon dark>add</v-icon>
+                  <v-icon dark @click.native="deviceTypeDialog.visible = true">add</v-icon>
                 </v-btn>
                 <span class="headline">
                     Készülék típusok
@@ -51,6 +51,9 @@
                     <td class="text-xs-left">{{ props.item.type }}</td>
                     <td class="text-xs-right">{{ props.item.amount }}</td>
                     <td class="text-xs-right">
+                        <v-btn dark fab small color="red" v-if="props.item.amount == 0">
+                          <v-icon dark @click.native="deleteDeviceType(props.item.id)">delete</v-icon>
+                        </v-btn>
                         <v-btn color="info">szerkesztés</v-btn>
                     </td>
                 </template>
@@ -91,6 +94,36 @@
                 <v-btn color="info" @click.native="deviceDialog.values.id ? editDevice(deviceDialog.values.id) : addNewDevice()" :disabled="!deviceDialog.valid">
                   <span v-if="this.deviceDialog.values.id">Mentés</span>
                   <span v-if="!this.deviceDialog.values.id">Hozzáadás</span>
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-layout>
+
+        <!-- Keszulekek tipus form dialog -->
+        <v-layout row justify-center>
+          <v-dialog v-model="deviceTypeDialog.visible" persistent max-width="500px">
+            <v-card>
+              <v-card-title>
+                <span class="headline">Készülék típus</span>
+              </v-card-title>
+              <v-card-text>
+                <v-form ref="deciveForm" v-model="deviceTypeDialog.valid">
+                  <v-container grid-list-md>
+                    <v-layout wrap>
+                      <v-flex xs12>
+                        <v-text-field label="Típus megnevezés" required :rules="requiredRule" v-model="deviceTypeDialog.values.type"></v-text-field>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" flat @click.native="deviceTypeDialog.visible = false">Mégsem</v-btn>
+                <v-btn color="info" @click.native="deviceTypeDialog.values.id ? editDeviceType(deviceTypeDialog.values.id) : addNewDeviceType()" :disabled="!deviceTypeDialog.valid">
+                  <span v-if="this.deviceTypeDialog.values.id">Mentés</span>
+                  <span v-if="!this.deviceTypeDialog.values.id">Hozzáadás</span>
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -142,7 +175,40 @@
             break;
           }
         }
+      },
+      // adds new device type
+      addNewDeviceType() {
+        this.deviceTypeDialog.values.id = Math.floor(Math.random() * Math.floor(100000)) + 10; // random
+        this.types.push(this.deviceTypeDialog.values);
+        this.deviceTypeList.push(this.deviceTypeDialog.values.type);
+        this.deviceTypeDialog.visible = false;
+      },
+      // edits device TODO
+      editDeviceType(id) {
+        for (var i = 0; i < this.types.length; i++) {
+          if (this.types[i].id == id) {
+            this.types.splice(i, 1);
+            this.types.push(this.deviceTypeDialog.values);
+            this.deviceTypeDialog.visible = false;
+            break;
+          }
+        }
+      },
+      // deletes device TODO
+      deleteDeviceType(id) {
+        for (var i = 0; i < this.types.length; i++) {
+          if (this.types[i].id == id) {
+            this.types.splice(i, 1);
+            break;
+          }
+        }
+      },
+      extractDeviceTypes() {
+        this.deviceTypeList = [ ...new Set(this.devices.map(a => a.type))]; // get unique 'type' fields from devices array
       }
+    },
+    mounted() {
+      this.extractDeviceTypes();
     },
     data () {
       return {
@@ -152,8 +218,13 @@
           valid: true,
           values: { name: '', watts: '', type: '', id: null, forScanning: 0, scanned: 0 }
         },
+        deviceTypeDialog: {
+          visible: false,
+          valid: true,
+          values: { type: '', id: null, amount: 0 }
+        },
         requiredRule: [ v => !!v || 'kötelező mező' ],
-        deviceTypeList: ['split', 'multi split'],
+        deviceTypeList: [],
         headerDevices: [
           { text: 'Megnevezés', align: 'left', value: 'name' },
           { text: 'Watt pontok', align: 'right', value: 'watts' },
@@ -226,8 +297,8 @@
           { text: ''}
         ],
         types: [
-          { type: 'split', amount: 6 },
-          { type: 'multi split', amount: 1 },
+          { type: 'split', amount: 6, id: 1 },
+          { type: 'multi split', amount: 1, id: 2 },
         ],  
       }  
     }
