@@ -47,7 +47,6 @@
 <script>
   import Sortable from "sortablejs";
   import { mapState } from 'vuex';
-  // import { mapGetters } from 'vuex';
 
   export default {
     mounted() {
@@ -82,7 +81,6 @@
     },
     computed: {
       ...mapState('challenges', { challenges: 'challenges'})
-      // ...mapGetters('challenges', { challenges: 'getAllChallenges'})
     },
   }
 </script>

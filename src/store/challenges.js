@@ -83,9 +83,6 @@ export const challenges = {
         challenges: mockedChallanges
     },
     getters: {
-        // getAllChallenges: state => {
-        //     return state.challenges;
-        // }
     },
     actions: {
 
