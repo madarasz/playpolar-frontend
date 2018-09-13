@@ -19,7 +19,7 @@
                 <template slot="items" slot-scope="props">
                     <td class="text-xs-left">{{ props.item.name }}</td>
                     <td class="text-xs-right">{{ props.item.watts }}</td>
-                    <td class="text-xs-left">{{ props.item.type }}</td>
+                    <td class="text-xs-left">{{ getDeviceTypeNameFromId(props.item.typeId) }}</td>
                     <td class="text-xs-right">{{ props.item.forScanning }}</td>
                     <td class="text-xs-right">{{ props.item.scanned }}</td>
                     <td class="text-xs-right">
@@ -49,7 +49,7 @@
             <v-data-table :headers="headerTypes" :items="types" hide-actions no-data-text="nincsenek készülék típusok">
                 <template slot="items" slot-scope="props">
                     <td class="text-xs-left">{{ props.item.type }}</td>
-                    <td class="text-xs-right">{{ props.item.amount }}</td>
+                    <td class="text-xs-right">{{ getDeviceCountForTypeId(props.item.id) }}</td>
                     <td class="text-xs-right">
                         <v-btn dark fab small color="red" v-if="props.item.amount == 0">
                           <v-icon dark @click.native="deleteDeviceType(props.item.id)">delete</v-icon>
@@ -79,9 +79,9 @@
                       </v-flex>
                       <v-flex xs12 sm6>
                         <v-select
-                          :items="deviceTypeList"
+                          :items="deviceTypeListForSelector"
                           label="Típus"
-                          v-model="deviceDialog.values.type"
+                          v-model="deviceDialog.values.typeId"
                         ></v-select>
                       </v-flex>
                     </v-layout>
@@ -133,6 +133,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   export default {
     methods: {
       // prepare device modal for new device entry
@@ -178,9 +180,7 @@
       },
       // adds new device type
       addNewDeviceType() {
-        this.deviceTypeDialog.values.id = Math.floor(Math.random() * Math.floor(100000)) + 10; // random
-        this.types.push(this.deviceTypeDialog.values);
-        this.deviceTypeList.push(this.deviceTypeDialog.values.type);
+        this.$store.dispatch('devices/saveNewDeviceType', this.deviceTypeDialog.values);
         this.deviceTypeDialog.visible = false;
       },
       // edits device TODO
@@ -203,12 +203,13 @@
           }
         }
       },
-      extractDeviceTypes() {
-        this.deviceTypeList = [ ...new Set(this.devices.map(a => a.type))]; // get unique 'type' fields from devices array
+      // number of devices with a certain type
+      getDeviceCountForTypeId(id) {
+        return this.devices.filter(t => t.typeId == id).length;
+      },
+      getDeviceTypeNameFromId(id) {
+        return this.types.filter(t => t.id == id)[0].type;
       }
-    },
-    mounted() {
-      this.extractDeviceTypes();
     },
     data () {
       return {
@@ -216,7 +217,7 @@
         deviceDialog: {
           visible: false,
           valid: true,
-          values: { name: '', watts: '', type: '', id: null, forScanning: 0, scanned: 0 }
+          values: { name: '', watts: '', typeId: 0, id: null, forScanning: 0, scanned: 0 }
         },
         deviceTypeDialog: {
           visible: false,
@@ -224,7 +225,6 @@
           values: { type: '', id: null, amount: 0 }
         },
         requiredRule: [ v => !!v || 'kötelező mező' ],
-        deviceTypeList: [],
         headerDevices: [
           { text: 'Megnevezés', align: 'left', value: 'name' },
           { text: 'Watt pontok', align: 'right', value: 'watts' },
@@ -233,73 +233,22 @@
           { text: 'QR scannelt', align: 'right', value: 'scanned' },
           { text: ''}
         ],
-        devices: [
-          {
-            id: 1,
-            name: 'POLAR SIEH0025SDA/SO1H0025SDA',
-            watts: 2500,
-            type: 'split',
-            forScanning: 0,
-            scanned: 12
-          },
-          {
-            id: 2,
-            name: 'Bosch Climate 5000 9000BTU',
-            watts: 2900,
-            type: 'split',
-            forScanning: 10,
-            scanned: 0
-          },
-          {
-            id: 3,
-            name: 'Bosch Climate 8500 9000BTU',
-            watts: 2900,
-            type: 'split',
-            forScanning: 13,
-            scanned: 12
-          },
-          {
-            id: 4,
-            name: 'DAIKIN FTXG20LS/RXG20L klíma Emura - ezüst',
-            watts: 2100,
-            type: 'split',
-            forScanning: 0,
-            scanned: 50
-          },
-          {
-            id: 5,
-            name: 'DAIKIN FTXZ25N/RXZ25N',
-            watts: 2500,
-            type: 'split',
-            forScanning: 33,
-            scanned: 42
-          },
-          {
-            id: 6,
-            name: 'DAIKIN FLXS50B/RXS50L',
-            watts: 4900,
-            type: 'split',
-            forScanning: 10,
-            scanned: 0
-          },
-          {
-            id: 7,
-            name: 'Polar MO4H080SAX multi kültéri egység',
-            watts: 8100,
-            type: 'multi split',
-            forScanning: 0,
-            scanned: 0
-          },
-        ],
         headerTypes: [
           { text: 'Típus', align: 'left', value: 'name' },
           { text: 'Készülék db', align: 'right', value: 'amount' },
           { text: ''}
-        ],
-        types: [
-          { type: 'split', amount: 6, id: 1 },
-          { type: 'multi split', amount: 1, id: 2 },
-        ],  
+        ]
+      }  
+    },
+    computed: {
+      // data coming from vuex store
+      ...mapState('devices', { 
+        devices: 'devices', 
+        types: 'deviceTypes'
+      }),
+      // generates device type array for selector element
+      deviceTypeListForSelector() {
+        return this.types.map(t => ({ text: t.type, value: t.id }));
       }  
     }
   }
