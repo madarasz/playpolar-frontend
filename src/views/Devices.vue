@@ -91,7 +91,7 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" flat @click.native="deviceDialog.visible = false">Mégsem</v-btn>
-                <v-btn color="info" @click.native="deviceDialog.values.id ? editDevice(deviceDialog.values.id) : addNewDevice()" :disabled="!deviceDialog.valid">
+                <v-btn color="info" @click.native="deviceDialog.values.id ? editDevice() : addNewDevice()" :disabled="!deviceDialog.valid">
                   <span v-if="this.deviceDialog.values.id">Mentés</span>
                   <span v-if="!this.deviceDialog.values.id">Hozzáadás</span>
                 </v-btn>
@@ -146,38 +146,22 @@
       },
       // prepare device modal for editing device
       prepareDeviceModalForEditDevice(id) {
-        for (var i = 0; i < this.devices.length; i++) {
-          if (this.devices[i].id == id) {
-            this.deviceDialog.values = JSON.parse(JSON.stringify(this.devices[i]));  // clone values to form
-          }
-        }
+        this.deviceDialog.values = JSON.parse(JSON.stringify(this.devices.filter(d => d.id == id)[0])); // clone values to form
         this.deviceDialog.visible = true;
       },
       // adds new device
       addNewDevice() {
-        this.deviceDialog.values.id = Math.floor(Math.random() * Math.floor(100000)) + 10; // random
-        this.devices.push(this.deviceDialog.values);
+        this.$store.dispatch('devices/saveNewDevice', this.deviceDialog.values);
         this.deviceDialog.visible = false;
       },
       // edits device
-      editDevice(id) {
-        for (var i = 0; i < this.devices.length; i++) {
-          if (this.devices[i].id == id) {
-            this.devices.splice(i, 1);
-            this.devices.push(this.deviceDialog.values);
-            this.deviceDialog.visible = false;
-            break;
-          }
-        }
+      editDevice() {
+        this.$store.dispatch('devices/updateDevice', this.deviceDialog.values);
+        this.deviceDialog.visible = false;
       },
       // deletes device
       deleteDevice(id) {
-        for (var i = 0; i < this.devices.length; i++) {
-          if (this.devices[i].id == id) {
-            this.devices.splice(i, 1);
-            break;
-          }
-        }
+        this.$store.dispatch('devices/deleteDevice', id);
       },
 
       // *** DEVICE TYPES ***

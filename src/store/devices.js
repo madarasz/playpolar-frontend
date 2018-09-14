@@ -64,6 +64,8 @@ const mockedDeviceTypes = [
     { type: 'multi split', id: 2 },
 ];  
 
+import Vue from 'vue'
+
 export const devices = {
     namespaced: true,
     state: {
@@ -73,6 +75,22 @@ export const devices = {
     getters: {
     },
     actions: {
+        // *** DEVICES ***
+        saveNewDevice({ commit }, newDevice) {
+            // INSERT backend call here
+            newDevice.id = Math.floor(Math.random() * Math.floor(100000)) + 10; // temporary: random, get it from backend instead
+            commit('addDevice', newDevice);
+        },
+        updateDevice({ commit }, editedDevice) {
+            // INSERT backend call here
+            commit('editDevice', editedDevice);
+        },
+        deleteDevice({ commit }, deviceId) {
+            // INSERT backend call here
+            commit('removeDevice', deviceId);
+        },
+
+        // *** DEVICE TYPES ****
         saveNewDeviceType({ commit }, newDeviceType) {
             // INSERT backend call here
             newDeviceType.id = Math.floor(Math.random() * Math.floor(100000)) + 10; // temporary: random, get it from backend instead
@@ -88,8 +106,24 @@ export const devices = {
         }
     },
     mutations: {
+        // *** DEVICES ***
+        addDevice(state,  newDevice) {
+            state.devices.push(JSON.parse(JSON.stringify(newDevice))); // add a clone of the modal values
+        },
+        editDevice(state, editedDevice) {
+            Vue.set(    // vue.set is needed to trigger reacivity
+                state.devices, 
+                state.devices.findIndex(d => d.id == editedDevice.id), 
+                editedDevice
+            );
+        },
+        removeDevice(state, deviceId) {
+            state.devices = state.devices.filter(t => t.id != deviceId);
+        },
+
+        // *** DEVICE TYPES ***
         addDeviceType(state,  newDeviceType) {
-            state.deviceTypes.push({ id: newDeviceType.id, type: newDeviceType.type });
+            state.deviceTypes.push(JSON.parse(JSON.stringify(newDeviceType))); // add a clone of the modal values
         },
         editDeviceType(state, editedDeviceType) {
             state.deviceTypes.filter(t => t.id == editedDeviceType.id)[0].type = editedDeviceType.type;
