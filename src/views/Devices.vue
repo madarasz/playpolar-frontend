@@ -3,7 +3,7 @@
         <!-- Keszulekek tablazat -->
         <v-card>
             <v-card-title>
-                <v-btn fab dark small color="indigo" @click.native="prepareModalForNewDevice()">
+                <v-btn fab dark small color="indigo" @click.native="prepareDeviceModalForNewDevice()">
                   <v-icon dark>add</v-icon>
                 </v-btn>
                 <span class="headline">
@@ -26,7 +26,7 @@
                       <v-btn dark fab small color="red" v-if="props.item.forScanning + props.item.scanned == 0">
                         <v-icon dark @click.native="deleteDevice(props.item.id)">delete</v-icon>
                       </v-btn>
-                      <v-btn color="info" @click.native="prepareModalForEditDevice(props.item.id)">szerkesztés</v-btn>
+                      <v-btn color="info" @click.native="prepareDeviceModalForEditDevice(props.item.id)">szerkesztés</v-btn>
                     </td>
                 </template>
                 <v-alert slot="no-results" :value="true" color="error" icon="warning">
@@ -39,7 +39,7 @@
         <v-card class="mt-4">
             <v-card-title>
                 <v-btn fab dark small color="indigo">
-                  <v-icon dark @click.native="deviceTypeDialog.visible = true">add</v-icon>
+                  <v-icon dark @click.native="prepareDeviceTypeModalForNewDevice()">add</v-icon>
                 </v-btn>
                 <span class="headline">
                     Készülék típusok
@@ -51,10 +51,10 @@
                     <td class="text-xs-left">{{ props.item.type }}</td>
                     <td class="text-xs-right">{{ getDeviceCountForTypeId(props.item.id) }}</td>
                     <td class="text-xs-right">
-                        <v-btn dark fab small color="red" v-if="props.item.amount == 0">
+                        <v-btn dark fab small color="red" v-if="getDeviceCountForTypeId(props.item.id) == 0">
                           <v-icon dark @click.native="deleteDeviceType(props.item.id)">delete</v-icon>
                         </v-btn>
-                        <v-btn color="info">szerkesztés</v-btn>
+                        <v-btn color="info" @click.native="prepareDeviceTypeModalForEditDevice(props.item.id)">szerkesztés</v-btn>
                     </td>
                 </template>
             </v-data-table>
@@ -108,7 +108,7 @@
                 <span class="headline">Készülék típus</span>
               </v-card-title>
               <v-card-text>
-                <v-form ref="deciveForm" v-model="deviceTypeDialog.valid">
+                <v-form ref="deciveTypeForm" v-model="deviceTypeDialog.valid">
                   <v-container grid-list-md>
                     <v-layout wrap>
                       <v-flex xs12>
@@ -137,14 +137,15 @@
 
   export default {
     methods: {
+      // *** DEVICES ***
       // prepare device modal for new device entry
-      prepareModalForNewDevice() {
+      prepareDeviceModalForNewDevice() {
         this.$refs.deciveForm.reset();
         this.deviceDialog.values.id = null;
         this.deviceDialog.visible = true;
       },
       // prepare device modal for editing device
-      prepareModalForEditDevice(id) {
+      prepareDeviceModalForEditDevice(id) {
         for (var i = 0; i < this.devices.length; i++) {
           if (this.devices[i].id == id) {
             this.deviceDialog.values = JSON.parse(JSON.stringify(this.devices[i]));  // clone values to form
@@ -178,35 +179,38 @@
           }
         }
       },
+
+      // *** DEVICE TYPES ***
+      // prepare device type modal for new device entry
+      prepareDeviceTypeModalForNewDevice() {
+        this.$refs.deciveTypeForm.reset();
+        this.deviceTypeDialog.values.id = null;
+        this.deviceTypeDialog.visible = true;
+      },
+      // prepare device type modal for editing device
+      prepareDeviceTypeModalForEditDevice(id) {
+        this.deviceTypeDialog.values = JSON.parse(JSON.stringify(this.types.filter(t => t.id == id)[0])); // clone values to form
+        this.deviceTypeDialog.visible = true;
+      },
       // adds new device type
       addNewDeviceType() {
         this.$store.dispatch('devices/saveNewDeviceType', this.deviceTypeDialog.values);
         this.deviceTypeDialog.visible = false;
       },
-      // edits device TODO
-      editDeviceType(id) {
-        for (var i = 0; i < this.types.length; i++) {
-          if (this.types[i].id == id) {
-            this.types.splice(i, 1);
-            this.types.push(this.deviceTypeDialog.values);
-            this.deviceTypeDialog.visible = false;
-            break;
-          }
-        }
+      // edits device type
+      editDeviceType() {
+        this.$store.dispatch('devices/updateDeviceType', this.deviceTypeDialog.values);
+        this.deviceTypeDialog.visible = false;
       },
-      // deletes device TODO
+      // deletes device type
       deleteDeviceType(id) {
-        for (var i = 0; i < this.types.length; i++) {
-          if (this.types[i].id == id) {
-            this.types.splice(i, 1);
-            break;
-          }
-        }
+        this.$store.dispatch('devices/deleteDeviceType', id);
       },
       // number of devices with a certain type
       getDeviceCountForTypeId(id) {
         return this.devices.filter(t => t.typeId == id).length;
       },
+      // get device type name from device type ID
       getDeviceTypeNameFromId(id) {
         return this.types.filter(t => t.id == id)[0].type;
       }

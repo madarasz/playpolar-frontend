@@ -77,11 +77,25 @@ export const devices = {
             // INSERT backend call here
             newDeviceType.id = Math.floor(Math.random() * Math.floor(100000)) + 10; // temporary: random, get it from backend instead
             commit('addDeviceType', newDeviceType);
+        },
+        updateDeviceType({ commit }, editedDeviceType) {
+            // INSERT backend call here
+            commit('editDeviceType', editedDeviceType);
+        },
+        deleteDeviceType({ commit }, deviceTypeId) {
+            // INSERT backend call here
+            commit('removeDeviceType', deviceTypeId);
         }
     },
     mutations: {
         addDeviceType(state,  newDeviceType) {
-            state.deviceTypes.push(newDeviceType);
+            state.deviceTypes.push({ id: newDeviceType.id, type: newDeviceType.type });
+        },
+        editDeviceType(state, editedDeviceType) {
+            state.deviceTypes.filter(t => t.id == editedDeviceType.id)[0].type = editedDeviceType.type;
+        },
+        removeDeviceType(state, deviceTypeId) {
+            state.deviceTypes = state.deviceTypes.filter(t => t.id != deviceTypeId);
         }
     }
 }
