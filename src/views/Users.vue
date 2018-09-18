@@ -1,52 +1,54 @@
 <template>
   <div>
-    <!-- Felhasználók tábla -->
-    <v-card>
-      <v-card-title>
-          <span class="headline">
-              Felhasználók
-          </span>
-          <v-spacer></v-spacer>
-          <v-text-field v-model="searchUsers" append-icon="search" label="keresés" single-line hide-details class="pt-0"></v-text-field>
-      </v-card-title>
-      <v-data-table :headers="headerUsers" :items="users" :search="searchUsers" hide-actions no-data-text="nincsenek felhasználók">
-        <template slot="items" slot-scope="props">
-            <td class="text-xs-left">{{ props.item.name }}</td>
-            <td class="text-xs-right">{{ props.item.points }}</td>
-            <td class="text-xs-right">{{ props.item.scans }}</td>
-            <td class="text-xs-center">
-              <v-icon v-if="props.item.fb">check</v-icon>
-            </td>
-            <td class="text-xs-left">{{ props.item.lastActive }}</td>
-            <td class="text-xs-right">
-              <v-btn color="success" @click.native="prepareUserDetailsDialog(props.item.id)">részletek</v-btn>
-            </td>
-        </template>
-        <v-alert slot="no-results" :value="true" color="error" icon="warning">
-            Nincs találat "{{ searchUsers }}" kifejezésre.
-        </v-alert>
-      </v-data-table>
-    </v-card>
+    <v-expansion-panel popout v-model="panels" expand>
+      <!-- Felhasználók tábla -->
+      <v-expansion-panel-content>
+        <div slot="header" class="headline">Felhasználók</div>
+        <v-card>
+          <v-card-title>
+              <v-spacer></v-spacer>
+              <v-text-field v-model="searchUsers" append-icon="search" label="keresés" single-line hide-details class="pt-0"></v-text-field>
+          </v-card-title>
+          <v-data-table :headers="headerUsers" :items="users" :search="searchUsers" hide-actions no-data-text="nincsenek felhasználók">
+            <template slot="items" slot-scope="props">
+                <td class="text-xs-left">{{ props.item.name }}</td>
+                <td class="text-xs-right">{{ props.item.points }}</td>
+                <td class="text-xs-right">{{ props.item.scans }}</td>
+                <td class="text-xs-center">
+                  <v-icon v-if="props.item.fb">check</v-icon>
+                </td>
+                <td class="text-xs-left">{{ props.item.lastActive }}</td>
+                <td class="text-xs-right">
+                  <v-btn color="success" @click.native="prepareUserDetailsDialog(props.item.id)">részletek</v-btn>
+                </td>
+            </template>
+            <v-alert slot="no-results" :value="true" color="error" icon="warning">
+                Nincs találat "{{ searchUsers }}" kifejezésre.
+            </v-alert>
+          </v-data-table>
+        </v-card>
+      </v-expansion-panel-content>
 
-    <!-- Meghívottak tábla -->
-    <v-card class="mt-4">
-      <v-card-title>
-          <span class="headline">
-              Meghívott, még nem regisztráltak
-          </span>
-          <v-spacer></v-spacer>
-          <v-text-field v-model="searchInvites" append-icon="search" label="keresés" single-line hide-details class="pt-0"></v-text-field>
-      </v-card-title>
-      <v-data-table :headers="headerInvites" :items="invites" :search="searchInvites" hide-actions no-data-text="nincsenek meghívottak">
-        <template slot="items" slot-scope="props">
-            <td class="text-xs-left">{{ props.item.name }}</td>
-            <td class="text-xs-left">{{ props.item.invitedBy }}</td>
-        </template>
-        <v-alert slot="no-results" :value="true" color="error" icon="warning">
-            Nincs találat "{{ searchInvites }}" kifejezésre.
-        </v-alert>
-      </v-data-table>
-    </v-card>
+      <!-- Meghívottak tábla -->
+      <v-expansion-panel-content>
+        <div slot="header" class="headline">Meghívott, még nem regisztráltak</div>
+        <v-card>
+          <v-card-title>
+              <v-spacer></v-spacer>
+              <v-text-field v-model="searchInvites" append-icon="search" label="keresés" single-line hide-details class="pt-0"></v-text-field>
+          </v-card-title>
+          <v-data-table :headers="headerInvites" :items="invites" :search="searchInvites" hide-actions no-data-text="nincsenek meghívottak">
+            <template slot="items" slot-scope="props">
+                <td class="text-xs-left">{{ props.item.name }}</td>
+                <td class="text-xs-left">{{ props.item.invitedBy }}</td>
+            </template>
+            <v-alert slot="no-results" :value="true" color="error" icon="warning">
+                Nincs találat "{{ searchInvites }}" kifejezésre.
+            </v-alert>
+          </v-data-table>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>  
 
     <!-- Keszulekek form dialog -->
     <v-layout row justify-center>
@@ -173,6 +175,7 @@
             lastActive: ''
           },
         },
+        panels: [true, true],  // default panel state
         headerUsers: [
           { text: 'Név', align: 'left', value: 'name' },
           { text: 'Watt pontok', align: 'right', value: 'points' },
