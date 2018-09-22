@@ -1,5 +1,11 @@
 # play-polar-demo
 
+used frameworks, components:
+* [vue.js](https://vuejs.org/)
+* [vue router](https://router.vuejs.org/)
+* [vuex](https://vuex.vuejs.org/)
+* [vuetify](https://vuetifyjs.com)
+
 ## Project setup
 *upgrade node.js to v10+*
 ```
