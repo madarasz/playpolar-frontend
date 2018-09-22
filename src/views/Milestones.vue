@@ -32,6 +32,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   export default {
     data () {
       return {
@@ -44,34 +46,14 @@
           { text: 'Ajándék', align: 'left', value: 'prize' },
           { text: 'Aktív', align: 'center', value: 'active' },
           { text: ''}
-        ],
-        milestones: [
-          {
-            level: 1,
-            title: 'Kezdő klímás',
-            requiredWatts: 10000,
-            usersCompleted: 6,
-            prize: 'Mérőszalag',
-            active: true
-          },
-          {
-            level: 2,
-            title: 'Tapasztalt szerelő',
-            requiredWatts: 100000,
-            usersCompleted: 2,
-            prize: 'Csővágó',
-            active: true
-          },
-          {
-            level: 3,
-            title: 'Durva arc',
-            requiredWatts: 300000,
-            usersCompleted: 0,
-            prize: 'Céges autó',
-            active: true
-          },
         ]
       }
+    },
+    computed: {
+      // data coming from vuex store
+      ...mapState('milestones', { 
+        milestones: 'milestones'
+      }),
     }
   }
 </script>
