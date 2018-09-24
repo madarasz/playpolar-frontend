@@ -13,6 +13,7 @@ const mockedChallanges = [
         requiredInvites: null,
         minimumWatts: null,
         maximumWatts: null,
+        allowedDays: null,
         active: true
     },
     {
@@ -28,6 +29,7 @@ const mockedChallanges = [
         requiredType: 'multi split',
         minimumWatts: null,
         maximumWatts: null,
+        allowedDays: 7,
         active: true
     },
     {
@@ -43,6 +45,7 @@ const mockedChallanges = [
         requiredType: null,
         minimumWatts: 5000,
         maximumWatts: null,
+        allowedDays: 7,
         active: true
     },
     {
@@ -58,6 +61,7 @@ const mockedChallanges = [
         requiredType: null,
         minimumWatts: null,
         maximumWatts: null,
+        allowedDays: 14,
         active: true
     },
     {
@@ -73,6 +77,7 @@ const mockedChallanges = [
         requiredType: null,
         minimumWatts: null,
         maximumWatts: null,
+        allowedDays: 30,
         active: true
     }
 ];

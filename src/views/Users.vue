@@ -8,6 +8,9 @@
           </span>
           <v-spacer></v-spacer>
           <v-text-field v-model="searchUsers" append-icon="search" label="keresés" single-line hide-details class="pt-0"></v-text-field>
+          <div>
+            <v-btn color="purple" dark>Exportálás</v-btn>
+          </div>
       </v-card-title>
       <v-data-table :headers="headerUsers" :items="users" :search="searchUsers" hide-actions no-data-text="nincsenek felhasználók">
         <template slot="items" slot-scope="props">

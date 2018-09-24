@@ -31,6 +31,10 @@
               <span v-if="props.item.maximumWatts">max: {{ props.item.maximumWatts }}W</span>
             </td>
             <td class="text-xs-center">
+              {{ props.item.allowedDays }}
+              <span v-if="props.item.allowedDays">nap</span>
+            </td>
+            <td class="text-xs-center">
               <v-icon v-if="props.item.active">check</v-icon>
             </td>
             <td class="text-xs-right">
@@ -74,6 +78,7 @@
           { text: 'Teljesítve / Aktív / Sikertelen', align: 'center', sortable: false },
           { text: 'Feltétel', align: 'right', sortable: false },
           { text: 'Korlátozás', align: 'center', sortable: false },
+          { text: 'Idő', align: 'center', sortable: false },
           { text: 'Aktív', align: 'center', value: 'active', sortable: false },
           { text: '', sortable: false}
         ],
